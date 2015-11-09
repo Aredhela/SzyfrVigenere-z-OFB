@@ -138,29 +138,6 @@ namespace Szyfrator
             TextBox_decrypted_File.Text = ofb(TextBox_encrypted_File.Text, TextBox_Password.Text, wektor_inicjujacy, rozmiar_bloku);
         }
 
-        public static string Decryption(string plain, string key)
-        {
-            var encryptedBytes = new byte[plain.Length];
-            Decryption(Encoding.ASCII.GetBytes(plain), encryptedBytes, new RingKey(key));
-            return Encoding.ASCII.GetString(encryptedBytes);
-        }
-
-        public static void Decryption(byte[] input, byte[] output, RingKey key)
-        {
-            for (var i = 0; i < input.Length; i++)
-            {
-                if (input[i] == '\n' || input[i] == '\r' || input[i] == ' ')
-                {
-                    output[i] = input[i];
-                    continue;
-                }
-                var decryptedChar = (byte)(input[i] - FirstAlphabetCode);
-                var encryptedChar = (byte)(decryptedChar > key.Current ? (decryptedChar - key.Current) : (decryptedChar + AlphabetLength - key.Current));
-                output[i] = (byte)(encryptedChar + FirstAlphabetCode);
-                key.MoveNext();
-            }
-        }
-
         private void TextBox_Password_TextChanged(object sender, TextChangedEventArgs e)
         {
 
